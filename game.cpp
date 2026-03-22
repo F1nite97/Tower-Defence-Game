@@ -1,4 +1,4 @@
-// COMP710 GP Framework 2022
+// COMP710 GP Framework 2022 - Davor Georgiev
 // This include:
 #include "game.h"
 
@@ -9,7 +9,7 @@
 #include "imgui\imgui_impl_sdl2.h"
 #include "imgui\imgui_impl_opengl3.h"
 
-// Input system
+// Input system 
 #include "inputsystem.h"
 #include "xboxcontroller.h"
 #include <iostream>
