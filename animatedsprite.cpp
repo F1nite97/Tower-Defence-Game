@@ -100,9 +100,9 @@ AnimatedSprite::SetupFrames(int fixedFrameWidth, int fixedFrameHeight)
 		i += 4;
 	}
 	m_pVertexData = new VertexArray(vertices, numVertices, allIndices, totalIndices);
-	delete vertices;
+	delete[] vertices;
 	vertices = 0;
-	delete allIndices;
+	delete[] allIndices;
 	allIndices = 0;
 }
 
@@ -157,7 +157,7 @@ AnimatedSprite::SetLooping(bool loop)
 	m_bLooping = loop;
 }
 
-oid AnimatedSprite::Restart
+void AnimatedSprite::Restart
 ()
 {
 	m_iCurrentFrame = 0;

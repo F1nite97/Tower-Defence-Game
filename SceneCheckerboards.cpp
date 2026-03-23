@@ -7,6 +7,9 @@
 #include "imgui/imgui.h"
 // Library includes:
 #include <cassert>
+// FMOD
+#include "soundsystem.h"
+
 SceneCheckerboards::SceneCheckerboards()
 	: m_pCorners{ 0 }
 	, m_pCentre(0)
@@ -23,6 +26,13 @@ SceneCheckerboards::~SceneCheckerboards()
 	}
 	delete m_pCentre;
 	m_pCentre = 0;
+
+	// Release it when the scene is done (in scene destructor)
+	if (m_pSwishSound)
+	{
+		m_pSwishSound->release();
+		m_pSwishSound = nullptr;
+	}
 }
 bool SceneCheckerboards::Initialise(Renderer& renderer)
 {
@@ -59,6 +69,19 @@ bool SceneCheckerboards::Initialise(Renderer& renderer)
 	m_pCorners[3]->SetRedTint(0.0f);
 	m_pCorners[3]->SetGreenTint(0.0f);
 
+	renderer.CreateStaticText("Auckland University of Technology", 50);
+	m_pWelcomeText = renderer.CreateSprite("Auckland University of Technology");
+	m_pWelcomeText->SetX(500);
+	m_pWelcomeText->SetY(200);
+
+	// Load the sound
+	m_pSwishSound = SoundSystem::GetInstance().CreateSound("sounds/swish.wav");
+
+	// Play it (e.g. on a button press or event in Process())
+	SoundSystem::GetInstance().PlaySound(m_pSwishSound);
+
+	
+
 	return true;
 }
 
@@ -72,6 +95,7 @@ bool SceneCheckerboards::Initialise(Renderer& renderer)
 		m_angle += m_rotationSpeed * deltaTime;
 		m_pCentre->SetAngle(m_angle);
 		m_pCentre->Process(deltaTime);
+		m_pWelcomeText->Process(deltaTime);
 	}
 	void
 		SceneCheckerboards::Draw(Renderer & renderer)
@@ -81,6 +105,7 @@ bool SceneCheckerboards::Initialise(Renderer& renderer)
 			m_pCorners[k]->Draw(renderer);
 		}
 		m_pCentre->Draw(renderer);
+		m_pWelcomeText->Draw(renderer);
 	}
 	void SceneCheckerboards::DebugDraw()
 	{

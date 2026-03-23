@@ -4,6 +4,7 @@
 #include "imgui/imgui_impl_sdl2.h"
 #include "imgui/imgui_impl_opengl3.h"
 // Local includes:
+#include "texture.h"
 #include "texturemanager.h"
 #include "logmanager.h"
 #include "shader.h"
@@ -282,7 +283,7 @@ void
 Renderer::CreateStaticText(const char* pText, int pointsize)
 {
 	Texture* pTexture = new Texture();
-	pTexture->LoadTextTexture(pText, "yourfontfile.ttf", pointsize);
+	pTexture->LoadTextTexture(pText, "fonts/PROXON.ttf", pointsize);
 	m_pTextureManager->AddTexture(pText, pTexture);
 }
 

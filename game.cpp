@@ -16,6 +16,8 @@
 // Library includes:
 #include "renderer.h"
 #include "logmanager.h"
+// FMOD
+#include "soundsystem.h"
 // Static Members:
 Game* Game::sm_pInstance = 0;
 Game& Game::GetInstance()
@@ -42,6 +44,8 @@ Game::~Game()
 
 	delete m_pInputSystem;
 	m_pInputSystem = 0;
+
+	SoundSystem::DestroyInstance();
 }
 void Game::Quit()
 {
@@ -63,6 +67,11 @@ bool Game::Initialise()
 	m_iLastTime = SDL_GetPerformanceCounter();
 	m_pRenderer->SetClearColour(0, 255, 255);
 	
+	if (!SoundSystem::GetInstance().Initialise())
+	{
+		LogManager::GetInstance().Log("SoundSystem failed to initialise!");
+		return false;
+	}
 
 	Scene* pScene = 0;
 	pScene = new SceneCheckerboards();
@@ -111,21 +120,24 @@ bool Game::DoGameLoop()
 void Game::Process(float deltaTime)
 {
 	ProcessFrameCounting(deltaTime);
-	// TODO: Add game objects to process here!
 	m_scenes[m_iCurrentScene]->Process(deltaTime, *m_pInputSystem);
+	SoundSystem::GetInstance().Process();
 
-	ButtonState xboxA = m_pInputSystem->GetController(0)->GetButtonState(SDL_CONTROLLER_BUTTON_A);
-	ButtonState xboxX = m_pInputSystem->GetController(0)->GetButtonState(SDL_CONTROLLER_BUTTON_X);
-	ButtonState xboxLeft = m_pInputSystem->GetController(0)->GetButtonState(SDL_CONTROLLER_BUTTON_DPAD_LEFT);
-	ButtonState xboxRight = m_pInputSystem->GetController(0)->GetButtonState(SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
+	if (m_pInputSystem->GetNumberOfControllersAttached() > 0)
+	{
+		ButtonState xboxA = m_pInputSystem->GetController(0)->GetButtonState(SDL_CONTROLLER_BUTTON_A);
+		ButtonState xboxX = m_pInputSystem->GetController(0)->GetButtonState(SDL_CONTROLLER_BUTTON_X);
+		ButtonState xboxLeft = m_pInputSystem->GetController(0)->GetButtonState(SDL_CONTROLLER_BUTTON_DPAD_LEFT);
+		ButtonState xboxRight = m_pInputSystem->GetController(0)->GetButtonState(SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
 
-	if (xboxA == BS_PRESSED)
-	{
-		std::cout << "XboxA Pressed\n";
-	}
-	if (xboxLeft == BS_PRESSED)
-	{
-		std::cout << "XboxLeft Pressed\n";
+		if (xboxA == BS_PRESSED)
+		{
+			std::cout << "XboxA Pressed\n";
+		}
+		if (xboxLeft == BS_PRESSED)
+		{
+			std::cout << "XboxLeft Pressed\n";
+		}
 	}
 }
 
@@ -134,8 +146,8 @@ void Game::Draw(Renderer& renderer)
 	++m_iFrameCount;
 	renderer.Clear();
 	m_scenes[m_iCurrentScene]->Draw(renderer);
-	DebugDraw();
 	// TODO: Add game objects to draw here!
+	DebugDraw();
 	renderer.Present();
 	
 }

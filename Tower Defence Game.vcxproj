@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="animatedsprite.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="inlinehelper.cpp" />
     <ClCompile Include="inputsystem.cpp" />
@@ -33,10 +34,12 @@
     <ClCompile Include="logmanager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4.cpp" />
+    <ClCompile Include="particle.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="SceneCheckerboards.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="soundsystem.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texturemanager.cpp" />
@@ -46,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animatedsprite.h" />
+    <ClInclude Include="entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="inlinehelper.h" />
     <ClInclude Include="inputsystem.h" />
@@ -61,10 +65,12 @@
     <ClInclude Include="lib\SDL2_ttf-2.22.0\include\SDL_ttf.h" />
     <ClInclude Include="logmanager.h" />
     <ClInclude Include="matrix4.h" />
+    <ClInclude Include="particle.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="SceneCheckerboards.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="soundsystem.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="texturemanager.h" />
@@ -140,13 +146,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)lib\glew-2.1.0\include\;$(SolutionDir)lib\SDL2_image-2.6.1\include\;$(SolutionDir)lib\SDL2-2.0.22\include\;$(SolutionDir)lib;$(SolutionDir)lib\SDL2_ttf-2.22.0\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\glew-2.1.0\include\;$(SolutionDir)lib\SDL2_image-2.6.1\include\;$(SolutionDir)lib\SDL2-2.0.22\include\;$(SolutionDir)lib;$(SolutionDir)lib\SDL2_ttf-2.22.0\include\;$(SolutionDir)lib\FMOD\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\glew-2.1.0\lib\x86\;$(SolutionDir)lib\SDL2_image-2.6.1\lib\x86\;$(SolutionDir)lib\SDL2-2.0.22\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\glew-2.1.0\lib\x86\;$(SolutionDir)lib\SDL2_image-2.6.1\lib\x86\;$(SolutionDir)lib\SDL2-2.0.22\lib\x86\;$(SolutionDir)lib\SDL2_ttf-2.22.0\lib\x86\;$(SolutionDir)lib\FMOD\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;glew32.lib;opengl32.lib;SDL2_ttf.lib;fmod_vc.lib.;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -158,13 +164,13 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)lib\glew-2.1.0\include\;$(SolutionDir)lib\SDL2_image-2.6.1\include\;$(SolutionDir)lib\SDL2-2.0.22\include\;$(SolutionDir)lib;$(SolutionDir)lib\SDL2_ttf-2.22.0\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\glew-2.1.0\include\;$(SolutionDir)lib\SDL2_image-2.6.1\include\;$(SolutionDir)lib\SDL2-2.0.22\include\;$(SolutionDir)lib;$(SolutionDir)lib\SDL2_ttf-2.22.0\include\;$(SolutionDir)lib\FMOD\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\glew-2.1.0\lib\x86\;$(SolutionDir)lib\SDL2_image-2.6.1\lib\x86\;$(SolutionDir)lib\SDL2-2.0.22\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\glew-2.1.0\lib\x86\;$(SolutionDir)lib\SDL2_image-2.6.1\lib\x86\;$(SolutionDir)lib\SDL2-2.0.22\lib\x86\;$(SolutionDir)lib\SDL2_ttf-2.22.0\lib\x86\;$(SolutionDir)lib\FMOD\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;glew32.lib;opengl32.lib;SDL2_ttf.lib;fmod_vc.lib.;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

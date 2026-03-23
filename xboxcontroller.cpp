@@ -33,6 +33,7 @@ XboxController::Initialise(int controllerIndex)
 void XboxController::ProcessInput
 ()
 {
+	if (!m_bConnected || !m_pController) return;
 	// Store previous input state:
 	for (int k = 0; k < SDL_CONTROLLER_BUTTON_MAX; ++k)
 	{

@@ -3,6 +3,7 @@
 #define SCENECHECKERBOARDS_H
 // Local includes:
 #include "scene.h"
+#include "fmod.hpp"
 // Forward declarations:
 class Renderer;
 class Sprite;
@@ -21,12 +22,13 @@ protected:
 private:
 	SceneCheckerboards(const SceneCheckerboards& sceneCheckerboards);
 	SceneCheckerboards& operator=(const SceneCheckerboards& sceneCheckerboards);
-
+	FMOD::Sound* m_pSwishSound;
 	// Member data:
 public:
 protected:
 	Sprite* m_pCorners[4];
 	Sprite* m_pCentre;
+	Sprite* m_pWelcomeText;
 	float m_angle;
 	float m_rotationSpeed;
 private:
